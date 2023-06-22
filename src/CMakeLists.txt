@@ -20,6 +20,8 @@ add_executable(questions)
 
 target_sources(questions PRIVATE
     main.cpp
+    MainWindow.cpp
+    Scene.cpp
 )
 
 target_link_libraries(questions PRIVATE
