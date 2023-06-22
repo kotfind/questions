@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+mkdir -p ../build
+cd ../build
+cmake \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=true \
+    -DCMAKE_BUILD_TYPE=Debug \
+    ../src
+make -j 4
+./questions
