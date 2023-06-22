@@ -23,6 +23,7 @@ target_sources(questions PRIVATE
     MainWindow.cpp
     Scene.cpp
     Node.cpp
+    Arrow.cpp
 )
 
 target_link_libraries(questions PRIVATE
