@@ -28,6 +28,8 @@ class Arrow : public QGraphicsItem {
         Node* to;
 
         static constexpr double paintWidth = 10;
+        static constexpr double arrowHeadWidth = 10;
+        static constexpr double arrowHeadLength = 10;
 
     friend Node;
 };

@@ -3,6 +3,7 @@
 #include <QGraphicsTextItem>
 #include <QString>
 #include <QList>
+#include <QLineF>
 
 class Arrow;
 
@@ -17,6 +18,10 @@ class Node : public QGraphicsTextItem {
         ) override;
 
         QVariant itemChange(GraphicsItemChange, const QVariant&) override;
+
+        QPointF centerPos() const;
+
+        QPointF intersect(const QLineF& l) const;
 
     private:
         bool isInitial = false;

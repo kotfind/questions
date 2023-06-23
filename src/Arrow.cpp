@@ -2,6 +2,7 @@
 
 #include "Node.h"
 
+#include <QLineF>
 #include <QPainterPathStroker>
 
 Arrow::Arrow(Node* from, Node* to)
@@ -34,8 +35,33 @@ QRectF Arrow::boundingRect() const {
 
 QPainterPath Arrow::getPainterPath() const
 {
+    if (from->collidesWithItem(to)) return QPainterPath();
+
+    QLineF line(
+        from->centerPos(),
+        to->centerPos()
+    );
+
+    auto p1 = from->intersect(line);
+    auto p2 =   to->intersect(line);
+
+    auto l = hypot(p1.x() - p2.x(), p1.y() - p2.y());
+    auto dir_ = line.unitVector();
+    auto norm_ = dir_.normalVector();
+
+    QPointF dir(dir_.dx(), dir_.dy());
+    QPointF norm(norm_.dx(), norm_.dy());
+
+    auto base = p1 + dir * (l - arrowHeadLength);
+    auto d = norm * arrowHeadWidth / 2;
+    auto p3 = base + d;
+    auto p4 = base - d;
+
     QPainterPath path;
-    path.moveTo(from->pos());
-    path.lineTo(to->pos());
+    path.moveTo(p1);
+    path.lineTo(p2);
+    path.lineTo(p3);
+    path.moveTo(p2);
+    path.lineTo(p4);
     return path;
 }
