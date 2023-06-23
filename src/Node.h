@@ -2,6 +2,9 @@
 
 #include <QGraphicsTextItem>
 #include <QString>
+#include <QList>
+
+class Arrow;
 
 class Node : public QGraphicsTextItem {
     public:
@@ -13,7 +16,13 @@ class Node : public QGraphicsTextItem {
             QWidget*
         ) override;
 
+        QVariant itemChange(GraphicsItemChange, const QVariant&) override;
+
     private:
         bool isInitial = false;
         QString imageUrl = "";
+
+        QList<Arrow*> arrows;
+
+    friend Arrow;
 };

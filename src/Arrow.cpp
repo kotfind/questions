@@ -7,7 +7,10 @@
 Arrow::Arrow(Node* from, Node* to)
   : from(from),
     to(to)
-{}
+{
+    from->arrows.append(this);
+    to->arrows.append(this);
+}
 
 void Arrow::paint(
     QPainter* qp,
@@ -18,7 +21,8 @@ void Arrow::paint(
     qp->drawPath(getPainterPath());
 }
 
-QPainterPath Arrow::shape() const {
+QPainterPath Arrow::shape() const
+{
     QPainterPathStroker stroker;
     stroker.setWidth(paintWidth);
     return stroker.createStroke(getPainterPath());
@@ -28,7 +32,8 @@ QRectF Arrow::boundingRect() const {
     return shape().boundingRect();
 }
 
-QPainterPath Arrow::getPainterPath() const {
+QPainterPath Arrow::getPainterPath() const
+{
     QPainterPath path;
     path.moveTo(from->pos());
     path.lineTo(to->pos());
