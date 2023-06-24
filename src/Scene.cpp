@@ -8,13 +8,27 @@
 #include <QTransform>
 #include <QBrush>
 
+Scene* Scene::instance = nullptr;
+
 Scene::Scene(QObject* parent)
   : QGraphicsScene(parent)
-{}
+{
+    instance = this;
+}
 
 void Scene::setEditMode(EditMode m)
 {
     mode = m;
+}
+
+void Scene::setInitial(Node* n)
+{
+    for (auto* item : items()) {
+        if (auto* node = dynamic_cast<Node*>(item)) {
+            node->isInitial = node == n;
+            node->update();
+        }
+    }
 }
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e)

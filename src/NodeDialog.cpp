@@ -1,6 +1,7 @@
 #include "NodeDialog.h"
 
 #include "Node.h"
+#include "Scene.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -72,5 +73,7 @@ void NodeDialog::onAccepted()
 {
     node->setPlainText(textEdit->text());
     node->imageUrl = imageUrlEdit->text();
-    node->isInitial = initialCheck->isChecked();
+    if (initialCheck->isChecked()) {
+        Scene::instance->setInitial(node);
+    }
 }

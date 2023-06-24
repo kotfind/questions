@@ -13,6 +13,10 @@ class Scene : public QGraphicsScene {
 
         void setEditMode(EditMode);
 
+        void setInitial(Node*);
+
+        static Scene* instance;
+
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent*);
         void mouseMoveEvent(QGraphicsSceneMouseEvent*);
