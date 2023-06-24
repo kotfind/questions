@@ -85,10 +85,10 @@ void MainWindow::createToolBar()
 {
     QList<QPair<QString, EditMode>> arr = {
         /* Icon Path | EditMode */
-        {":new_node.svg", EditMode::NEW_NODE},
-        {":new_arrow.svg", EditMode::NEW_ARROW},
         {":move.svg", EditMode::MOVE},
         {":remove.svg", EditMode::DELETE},
+        {":new_node.svg", EditMode::NEW_NODE},
+        {":new_arrow.svg", EditMode::NEW_ARROW},
     };
 
     auto* bar = addToolBar("Tool Bar");
