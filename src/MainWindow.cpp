@@ -5,6 +5,7 @@
 
 #include <QToolBar>
 #include <QAction>
+#include <QActionGroup>
 
 MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent)
@@ -24,8 +25,6 @@ void MainWindow::createUI()
 
 void MainWindow::createToolBar()
 {
-    auto* bar = addToolBar("Tool Bar");
-
     QList<QPair<QString, EditMode>> arr = {
         /* Icon Path | EditMode */
         {":new_node.svg", EditMode::NEW_NODE},
@@ -33,6 +32,11 @@ void MainWindow::createToolBar()
         {":move.svg", EditMode::MOVE},
         {":remove.svg", EditMode::DELETE},
     };
+
+    auto* bar = addToolBar("Tool Bar");
+
+    auto* group = new QActionGroup(this);
+    group->setExclusive(true);
 
     for (const auto& [iconPath, mode] : arr) {
         auto* action = new QAction(QIcon(iconPath), "", this);
@@ -43,8 +47,12 @@ void MainWindow::createToolBar()
                 setEditMode(mode);
             }
         );
+        action->setCheckable(true);
         bar->addAction(action);
+        group->addAction(action);
     }
+
+    group->actions().first()->setChecked(true);
 }
 
 void MainWindow::setEditMode(EditMode m)
