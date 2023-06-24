@@ -1,9 +1,11 @@
 #include "Arrow.h"
 
 #include "Node.h"
+#include "ArrowDialog.h"
 
 #include <QLineF>
 #include <QPainterPathStroker>
+#include <QApplication>
 
 Arrow::Arrow(Node* from, Node* to)
   : from(from),
@@ -20,6 +22,10 @@ void Arrow::paint(
 )
 {
     qp->drawPath(getPainterPath());
+    qp->drawText(
+        (from->centerPos() + to->centerPos()) / 2,
+        text
+    );
 }
 
 QPainterPath Arrow::shape() const
@@ -29,7 +35,8 @@ QPainterPath Arrow::shape() const
     return stroker.createStroke(getPainterPath());
 }
 
-QRectF Arrow::boundingRect() const {
+QRectF Arrow::boundingRect() const
+{
     return shape().boundingRect();
 }
 
@@ -64,4 +71,10 @@ QPainterPath Arrow::getPainterPath() const
     path.moveTo(p2);
     path.lineTo(p4);
     return path;
+}
+
+void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
+{
+    ArrowDialog(this).exec();
+    update();
 }

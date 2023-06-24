@@ -4,6 +4,7 @@
 #include <QPainterPath>
 #include <QRectF>
 #include <QPainter>
+#include <QString>
 
 class Node;
 
@@ -20,6 +21,11 @@ class Arrow : public QGraphicsItem {
         QPainterPath shape() const override;
 
         QRectF boundingRect() const override;
+
+        QString text = "abacaba";
+
+    protected:
+        void mouseDoubleClickEvent(QGraphicsSceneMouseEvent*);
 
     private:
         QPainterPath getPainterPath() const;
