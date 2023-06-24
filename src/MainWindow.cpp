@@ -12,15 +12,15 @@ MainWindow::MainWindow(QWidget* parent)
 {
     createUI();
     createToolBar();
-
-    scene = new Scene(this);
-    view->setScene(scene);
 }
 
 void MainWindow::createUI()
 {
     view = new QGraphicsView(this);
     setCentralWidget(view);
+
+    scene = new Scene(this);
+    view->setScene(scene);
 }
 
 void MainWindow::createToolBar()
@@ -52,7 +52,9 @@ void MainWindow::createToolBar()
         group->addAction(action);
     }
 
-    group->actions().first()->setChecked(true);
+    auto action = group->actions().first();
+    action->setChecked(true);
+    action->trigger();
 }
 
 void MainWindow::setEditMode(EditMode m)
