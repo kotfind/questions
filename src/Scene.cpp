@@ -9,3 +9,6 @@
 Scene::Scene(QObject* parent)
   : QGraphicsScene(parent)
 {}
+
+void Scene::setEditMode(EditMode)
+{}

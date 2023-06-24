@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 
 class Scene;
+enum class EditMode;
 
 class MainWindow : public QMainWindow {
     public:
@@ -11,7 +12,11 @@ class MainWindow : public QMainWindow {
 
     private:
         void createUI();
+        void createToolBar();
 
         Scene* scene;
         QGraphicsView* view;
+
+    private slots:
+        void setEditMode(EditMode);
 };

@@ -33,3 +33,10 @@ target_link_libraries(questions PRIVATE
     Qt6::Widgets
     Qt6::Svg
 )
+
+qt_add_resources(questions "imgs"
+    PREFIX "/"
+    BASE "img/"
+    FILES
+        "img/none.svg"
+)
