@@ -26,9 +26,15 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e)
             QGraphicsScene::mousePressEvent(e);
             break;
 
-        case EditMode::DELETE:
-            // TODO
-            break;
+        case EditMode::DELETE: {
+            auto* item = itemAt(pos, QTransform());
+            if (auto* node = dynamic_cast<Node*>(item)) {
+                node->remove();
+            }
+            if (auto* arrow = dynamic_cast<Arrow*>(item)) {
+                arrow->remove();
+            }
+        } break;
 
         case EditMode::NEW_NODE: {
             auto* n = new Node;

@@ -5,6 +5,7 @@
 
 #include <QPainter>
 #include <stdexcept>
+#include <QGraphicsScene>
 
 Node::Node()
 {
@@ -81,4 +82,13 @@ void Node::updateArrows() const
     for (auto* arrow : arrows) {
         arrow->prepareGeometryChange();
     }
+}
+
+void Node::remove()
+{
+    while (!arrows.isEmpty()) {
+        arrows[0]->remove();
+    }
+    scene()->removeItem(this);
+    delete this;
 }

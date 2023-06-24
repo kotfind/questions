@@ -6,6 +6,7 @@
 #include <QLineF>
 #include <QPainterPathStroker>
 #include <QApplication>
+#include <QGraphicsScene>
 
 Arrow::Arrow(Node* from, Node* to)
   : from(from),
@@ -82,4 +83,12 @@ void Arrow::showDialog()
 void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
 {
     showDialog();
+}
+
+void Arrow::remove()
+{
+    from->arrows.removeAll(this);
+    to->arrows.removeAll(this);
+    scene()->removeItem(this);
+    delete this;
 }

@@ -24,7 +24,9 @@ class Arrow : public QGraphicsItem {
 
         void showDialog();
 
-        QString text = "abacaba";
+        void remove();
+
+        QString text = "";
 
     protected:
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent*);

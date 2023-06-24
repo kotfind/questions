@@ -26,6 +26,8 @@ class Node : public QGraphicsTextItem {
 
         void showDialog();
 
+        void remove();
+
         bool isInitial = false;
         QString imageUrl = "";
 
