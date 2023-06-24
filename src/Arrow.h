@@ -5,6 +5,7 @@
 #include <QRectF>
 #include <QPainter>
 #include <QString>
+#include <QDialog>
 
 class Node;
 
@@ -22,7 +23,7 @@ class Arrow : public QGraphicsItem {
 
         QRectF boundingRect() const override;
 
-        void showDialog();
+        QDialog::DialogCode showDialog();
 
         void remove();
 

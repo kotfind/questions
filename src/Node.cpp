@@ -66,10 +66,13 @@ QPointF Node::intersect(const QLineF& l1) const
     throw std::runtime_error("don't intersect");
 }
 
-void Node::showDialog()
+QDialog::DialogCode Node::showDialog()
 {
-    NodeDialog(this).exec();
+    auto code = static_cast<QDialog::DialogCode>(
+        NodeDialog(this).exec()
+    );
     updateArrows();
+    return code;
 }
 
 void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
@@ -89,6 +92,8 @@ void Node::remove()
     while (!arrows.isEmpty()) {
         arrows[0]->remove();
     }
-    scene()->removeItem(this);
+    if (scene()) {
+        scene()->removeItem(this);
+    }
     delete this;
 }

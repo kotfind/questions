@@ -5,6 +5,7 @@
 #include <QList>
 #include <QLineF>
 #include <QGraphicsSceneMouseEvent>
+#include <QDialog>
 
 class Arrow;
 
@@ -24,7 +25,7 @@ class Node : public QGraphicsTextItem {
 
         QPointF intersect(const QLineF& l) const;
 
-        void showDialog();
+        QDialog::DialogCode showDialog();
 
         void remove();
 
@@ -33,6 +34,7 @@ class Node : public QGraphicsTextItem {
 
     protected:
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent*);
+
 
     private:
         void updateArrows() const;

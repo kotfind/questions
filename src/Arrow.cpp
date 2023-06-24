@@ -74,10 +74,13 @@ QPainterPath Arrow::getPainterPath() const
     return path;
 }
 
-void Arrow::showDialog()
+QDialog::DialogCode Arrow::showDialog()
 {
-    ArrowDialog(this).exec();
+    auto code = static_cast<QDialog::DialogCode>(
+        ArrowDialog(this).exec()
+    );
     update();
+    return code;
 }
 
 void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
@@ -89,6 +92,8 @@ void Arrow::remove()
 {
     from->arrows.removeAll(this);
     to->arrows.removeAll(this);
-    scene()->removeItem(this);
+    if (scene()) {
+        scene()->removeItem(this);
+    }
     delete this;
 }

@@ -53,8 +53,11 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e)
         case EditMode::NEW_NODE: {
             auto* n = new Node;
             n->setPos(pos);
-            n->showDialog();
-            addItem(n);
+            if (n->showDialog() == QDialog::Accepted) {
+                addItem(n);
+            } else {
+                n->remove();
+            }
         } break;
 
         case EditMode::NEW_ARROW:
@@ -112,8 +115,11 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
             if (!node || node == pressedNode) break;
             
             auto* arrow = new Arrow(pressedNode, node);
-            arrow->showDialog();
-            addItem(arrow);
+            if (arrow->showDialog() == QDialog::Accepted) {
+                addItem(arrow);
+            } else {
+                arrow->remove();
+            }
         } break;
     }
 }
