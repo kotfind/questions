@@ -45,6 +45,7 @@ void MainWindow::createMenuBar()
     bar->addMenu(fileMenu);
 
     auto* newAction = new QAction(tr("New"), this);
+    newAction->setShortcut(Qt::CTRL | Qt::Key_N);
     fileMenu->addAction(newAction);
     connect(
         newAction,
@@ -54,6 +55,7 @@ void MainWindow::createMenuBar()
     );
 
     auto* saveAction = new QAction(tr("Save"), this);
+    saveAction->setShortcut(Qt::CTRL | Qt::Key_S);
     fileMenu->addAction(saveAction);
     connect(
         saveAction,
@@ -63,6 +65,7 @@ void MainWindow::createMenuBar()
     );
 
     auto* saveAsAction = new QAction(tr("Save As"), this);
+    saveAsAction->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_S);
     fileMenu->addAction(saveAsAction);
     connect(
         saveAsAction,
@@ -72,6 +75,7 @@ void MainWindow::createMenuBar()
     );
 
     auto* openAction = new QAction(tr("Open"), this);
+    openAction->setShortcut(Qt::CTRL | Qt::Key_O);
     fileMenu->addAction(openAction);
     connect(
         openAction,
