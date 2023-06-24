@@ -1,6 +1,7 @@
 #include "ArrowDialog.h"
 
 #include "Arrow.h"
+#include "Scene.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -61,4 +62,5 @@ void ArrowDialog::createUI()
 void ArrowDialog::onAccepted()
 {
     arrow->text = textEdit->text();
+    Scene::instance->hasChanged = true;
 }

@@ -76,4 +76,5 @@ void NodeDialog::onAccepted()
     if (initialCheck->isChecked()) {
         Scene::instance->setInitial(node);
     }
+    Scene::instance->hasChanged = true;
 }
