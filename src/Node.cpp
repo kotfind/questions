@@ -22,7 +22,11 @@ void Node::paint(
 )
 {
     QGraphicsTextItem::paint(qp, opt, widget);
-    qp->drawRect(boundingRect());
+    if (isInitial) {
+        qp->drawEllipse(boundingRect());
+    } else {
+        qp->drawRect(boundingRect());
+    }
 }
 
 QVariant Node::itemChange(GraphicsItemChange change, const QVariant& value)
