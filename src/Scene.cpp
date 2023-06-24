@@ -218,6 +218,7 @@ bool Scene::save(const QString& fileName)
 
     file.write(QJsonDocument(toJson()).toJson());
     hasChanged = false;
+    update();
     return true;
 }
 
@@ -299,5 +300,6 @@ void Scene::clear()
             arrow->remove();
         }
     }
+    update();
     hasChanged = false;
 }
