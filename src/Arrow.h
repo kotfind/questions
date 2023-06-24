@@ -22,6 +22,8 @@ class Arrow : public QGraphicsItem {
 
         QRectF boundingRect() const override;
 
+        void showDialog();
+
         QString text = "abacaba";
 
     protected:

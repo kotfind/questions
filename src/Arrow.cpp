@@ -73,8 +73,13 @@ QPainterPath Arrow::getPainterPath() const
     return path;
 }
 
-void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
+void Arrow::showDialog()
 {
     ArrowDialog(this).exec();
     update();
+}
+
+void Arrow::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
+{
+    showDialog();
 }

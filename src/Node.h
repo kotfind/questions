@@ -24,6 +24,8 @@ class Node : public QGraphicsTextItem {
 
         QPointF intersect(const QLineF& l) const;
 
+        void showDialog();
+
         bool isInitial = false;
         QString imageUrl = "";
 

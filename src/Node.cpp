@@ -65,10 +65,15 @@ QPointF Node::intersect(const QLineF& l1) const
     throw std::runtime_error("don't intersect");
 }
 
-void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
+void Node::showDialog()
 {
     NodeDialog(this).exec();
     updateArrows();
+}
+
+void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
+{
+    showDialog();
 }
 
 void Node::updateArrows() const
