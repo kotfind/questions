@@ -5,6 +5,7 @@ let div = document.getElementById('questionsDiv')
 let image = div.getElementsByClassName('image')[0]
 let text = div.getElementsByClassName('text')[0]
 let list = div.getElementsByClassName('list')[0]
+let button = div.getElementsByClassName('button')[0]
 
 function loadCurrentNode() {
     let node = nodes[currentNodeId]
@@ -20,7 +21,10 @@ function loadCurrentNode() {
                 '<label>' + arrow.text + ' </label>' +
                 '<br>'
         }
-        list.getElementsByTagName('input')[0].checked = true;
+        list.getElementsByTagName('input')[0].checked = true
+        button.style.display = ''
+    } else {
+        button.style.display = 'none'
     }
 }
 
