@@ -109,7 +109,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
             previewLine = nullptr;
 
             auto* node = dynamic_cast<Node*>(itemAt(pos, QTransform()));
-            if (!node) break;
+            if (!node || node == pressedNode) break;
             
             auto* arrow = new Arrow(pressedNode, node);
             arrow->showDialog();
