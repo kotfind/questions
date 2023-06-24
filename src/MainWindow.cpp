@@ -21,6 +21,13 @@ void MainWindow::createUI()
 
     scene = new Scene(this);
     view->setScene(scene);
+
+    connect(
+        scene,
+        &Scene::cursorChanged,
+        view,
+        &QGraphicsView::setCursor
+    );
 }
 
 void MainWindow::createToolBar()

@@ -67,6 +67,8 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e)
             addItem(previewLine);
             break;
     }
+
+    updateCursor(e);
 }
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
@@ -89,6 +91,8 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             previewLine->setLine(line);
         } break;
     }
+
+    updateCursor(e);
 }
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
@@ -122,4 +126,17 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
             }
         } break;
     }
+
+    updateCursor(e);
+}
+
+void Scene::updateCursor(QGraphicsSceneMouseEvent* e)
+{
+    auto pos = e->scenePos();
+    auto* item = itemAt(pos, QTransform());
+    emit cursorChanged(
+        item
+            ? Qt::PointingHandCursor
+            : Qt::ArrowCursor
+    );
 }
