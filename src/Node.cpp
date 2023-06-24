@@ -1,6 +1,7 @@
 #include "Node.h"
 
 #include "Arrow.h"
+#include "NodeDialog.h"
 
 #include <QPainter>
 #include <stdexcept>
@@ -24,12 +25,11 @@ void Node::paint(
     qp->drawRect(boundingRect());
 }
 
-QVariant Node::itemChange(GraphicsItemChange change, const QVariant& value) {
+QVariant Node::itemChange(GraphicsItemChange change, const QVariant& value)
+{
     if (change != ItemPositionChange) return QGraphicsItem::itemChange(change, value);
 
-    for (auto* arrow : arrows) {
-        arrow->prepareGeometryChange();
-    }
+    updateArrows();
 
     return value;
 }
@@ -59,4 +59,17 @@ QPointF Node::intersect(const QLineF& l1) const
     }
 
     throw std::runtime_error("don't intersect");
+}
+
+void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
+{
+    NodeDialog(this).exec();
+    updateArrows();
+}
+
+void Node::updateArrows() const
+{
+    for (auto* arrow : arrows) {
+        arrow->prepareGeometryChange();
+    }
 }

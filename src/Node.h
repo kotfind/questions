@@ -4,6 +4,7 @@
 #include <QString>
 #include <QList>
 #include <QLineF>
+#include <QGraphicsSceneMouseEvent>
 
 class Arrow;
 
@@ -23,9 +24,14 @@ class Node : public QGraphicsTextItem {
 
         QPointF intersect(const QLineF& l) const;
 
-    private:
         bool isInitial = false;
         QString imageUrl = "";
+
+    protected:
+        void mouseDoubleClickEvent(QGraphicsSceneMouseEvent*);
+
+    private:
+        void updateArrows() const;
 
         QList<Arrow*> arrows;
 

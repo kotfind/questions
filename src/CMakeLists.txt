@@ -24,6 +24,7 @@ target_sources(questions PRIVATE
     Scene.cpp
     Node.cpp
     Arrow.cpp
+    NodeDialog.cpp
 )
 
 target_link_libraries(questions PRIVATE
