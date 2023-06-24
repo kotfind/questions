@@ -15,6 +15,7 @@
 #include <QJsonDocument>
 #include <QFile>
 #include <stdexcept>
+#include <QDebug>
 
 Scene* Scene::instance = nullptr;
 
@@ -52,17 +53,20 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* e)
             auto* item = itemAt(pos, QTransform());
             if (auto* node = dynamic_cast<Node*>(item)) {
                 node->remove();
+                hasChanged = true;
             }
             if (auto* arrow = dynamic_cast<Arrow*>(item)) {
                 arrow->remove();
+                hasChanged = true;
             }
         } break;
 
         case EditMode::NEW_NODE: {
             auto* n = new Node;
-            n->setPos(pos);
             if (n->showDialog() == QDialog::Accepted) {
+                n->setPos(pos);
                 addItem(n);
+                hasChanged = true;
             } else {
                 n->remove();
             }
@@ -129,6 +133,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
             auto* arrow = new Arrow(pressedNode, node);
             if (arrow->showDialog() == QDialog::Accepted) {
                 addItem(arrow);
+                hasChanged = true;
             } else {
                 arrow->remove();
             }
@@ -198,7 +203,7 @@ QJsonObject Scene::toJson() const
     return json;
 }
 
-void Scene::save(const QString& fileName)
+bool Scene::save(const QString& fileName)
 {
     QFile file(fileName);
 
@@ -208,10 +213,12 @@ void Scene::save(const QString& fileName)
             tr("Couldn't open file"),
             tr("Couldn't open file \"%1\" for writing.").arg(fileName)
         );
-        return;
+        return false;
     }
 
     file.write(QJsonDocument(toJson()).toJson());
+    hasChanged = false;
+    return true;
 }
 
 void Scene::fromJson(const QJsonObject& j)
@@ -267,6 +274,7 @@ bool Scene::load(const QString& fileName)
 
     try {
         fromJson(QJsonDocument::fromJson(file.readAll()).object());
+        hasChanged = false;
         update();
         return true;
     } catch(const std::runtime_error&) {
@@ -291,4 +299,5 @@ void Scene::clear()
             arrow->remove();
         }
     }
+    hasChanged = false;
 }

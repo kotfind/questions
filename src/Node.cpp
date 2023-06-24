@@ -3,6 +3,7 @@
 #include "Arrow.h"
 #include "NodeDialog.h"
 #include "getOrThrow.h"
+#include "Scene.h"
 
 #include <QPainter>
 #include <stdexcept>
@@ -37,6 +38,7 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant& value)
     if (change != ItemPositionChange) return QGraphicsItem::itemChange(change, value);
 
     updateArrows();
+    Scene::instance->hasChanged = true;
 
     return value;
 }

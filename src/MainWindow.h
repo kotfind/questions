@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include <QGraphicsView>
+#include <QString>
+#include <QCloseEvent>
 
 class Scene;
 enum class EditMode;
@@ -15,12 +17,22 @@ class MainWindow : public QMainWindow {
         void createMenuBar();
         void createToolBar();
 
+        bool askForSave();
+        void updateTitle();
+
         Scene* scene;
         QGraphicsView* view;
+
+        QString openedFileName = "";
+
+    protected:
+        void closeEvent(QCloseEvent*) override;
 
     private slots:
         void setEditMode(EditMode);
 
-        void save();
-        void open();
+        bool save();
+        bool saveAs();
+        bool open();
+        bool new_();
 };

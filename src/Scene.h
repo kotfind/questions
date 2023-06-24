@@ -18,11 +18,13 @@ class Scene : public QGraphicsScene {
 
         void setInitial(Node*);
 
-        void save(const QString& fileName);
+        bool save(const QString& fileName);
         bool load(const QString& fileName);
         void clear();
 
         static Scene* instance;
+
+        bool hasChanged = false;
 
     protected:
         void mousePressEvent(QGraphicsSceneMouseEvent*);
