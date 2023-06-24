@@ -39,4 +39,8 @@ qt_add_resources(questions "imgs"
     BASE "img/"
     FILES
         "img/none.svg"
+        "img/move.svg"
+        "img/remove.svg"
+        "img/new_node.svg"
+        "img/new_arrow.svg"
 )

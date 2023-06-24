@@ -28,14 +28,14 @@ void MainWindow::createToolBar()
 
     QList<QPair<QString, EditMode>> arr = {
         /* Icon Path | EditMode */
-        {":none.svg", EditMode::NEW_NODE},
-        {":none.svg", EditMode::NEW_ARROW},
-        {":none.svg", EditMode::MOVE},
-        {":none.svg", EditMode::DELETE},
+        {":new_node.svg", EditMode::NEW_NODE},
+        {":new_arrow.svg", EditMode::NEW_ARROW},
+        {":move.svg", EditMode::MOVE},
+        {":remove.svg", EditMode::DELETE},
     };
 
     for (const auto& [iconPath, mode] : arr) {
-        auto* action = new QAction(QIcon(":none.svg"), "", this);
+        auto* action = new QAction(QIcon(iconPath), "", this);
         connect(
             action,
             &QAction::triggered,
