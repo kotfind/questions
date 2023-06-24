@@ -6,6 +6,7 @@
 #include <QLineF>
 #include <QGraphicsSceneMouseEvent>
 #include <QDialog>
+#include <QJsonObject>
 
 class Arrow;
 
@@ -28,6 +29,11 @@ class Node : public QGraphicsTextItem {
         QDialog::DialogCode showDialog();
 
         void remove();
+
+        QJsonObject toJson(
+            const QHash<Node*, int>& nodeToId,
+            const QList<Arrow*>& arrowsFromThis
+        ) const;
 
         bool isInitial = false;
         QString imageUrl = "";

@@ -27,6 +27,9 @@ class Arrow : public QGraphicsItem {
 
         void remove();
 
+        Node* from;
+        Node* to;
+
         QString text = "";
 
     protected:
@@ -34,9 +37,6 @@ class Arrow : public QGraphicsItem {
 
     private:
         QPainterPath getPainterPath() const;
-
-        Node* from;
-        Node* to;
 
         static constexpr double paintWidth = 10;
         static constexpr double arrowHeadWidth = 10;

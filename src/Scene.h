@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsLineItem>
+#include <QJsonObject>
 
 enum class EditMode;
 class Node;
@@ -17,6 +18,8 @@ class Scene : public QGraphicsScene {
 
         void setInitial(Node*);
 
+        void save(const QString& fileName);
+
         static Scene* instance;
 
     protected:
@@ -27,6 +30,8 @@ class Scene : public QGraphicsScene {
         void updateCursor(QGraphicsSceneMouseEvent*);
 
     private:
+        QJsonObject toJson() const;
+
         EditMode mode;
 
         Node* pressedNode = nullptr;

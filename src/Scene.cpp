@@ -7,6 +7,12 @@
 #include <QGraphicsEllipseItem>
 #include <QTransform>
 #include <QBrush>
+#include <QHash>
+#include <QList>
+#include <QMessageBox>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QFile>
 
 Scene* Scene::instance = nullptr;
 
@@ -139,4 +145,69 @@ void Scene::updateCursor(QGraphicsSceneMouseEvent* e)
             ? Qt::PointingHandCursor
             : Qt::ArrowCursor
     );
+}
+
+QJsonObject Scene::toJson() const
+{
+    QList<Node*> nodes;
+    QList<Arrow*> arrows;
+
+    for (auto* item : items()) {
+        if (auto* n = dynamic_cast<Node*>(item)) {
+            nodes << n;
+        }
+        if (auto* a = dynamic_cast<Arrow*>(item)) {
+            arrows << a;
+        }
+    }
+
+    int initial = -1;
+    QHash<Node*, int> nodeToId;
+    for (int i = 0; i < nodes.size(); ++i) {
+        nodeToId[nodes[i]] = i;
+        if (nodes[i]->isInitial) {
+            initial = i;
+        }
+    }
+
+    if (initial == -1) {
+        QMessageBox::warning(
+            nullptr,
+            tr("No initial node!"),
+            tr("Initial node was not set!")
+        );
+    }
+
+    QHash<Node*, QList<Arrow*>> arrowsFrom;
+    for (auto* arrow : arrows) {
+        arrowsFrom[arrow->from] << arrow;
+    }
+
+    QJsonObject json;
+    json["initial"] = initial;
+
+    QJsonArray jsonNodes;
+    for (auto* node : nodes) {
+        jsonNodes << node->toJson(nodeToId, arrowsFrom[node]);
+    }
+
+    json["nodes"] = jsonNodes;
+
+    return json;
+}
+
+void Scene::save(const QString& fileName)
+{
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::critical(
+            nullptr,
+            tr("Couldn't open file"),
+            tr("Couldn't open file \"%1\" for writing.").arg(fileName)
+        );
+        return;
+    }
+
+    file.write(QJsonDocument(toJson()).toJson());
 }

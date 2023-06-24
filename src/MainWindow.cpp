@@ -6,11 +6,14 @@
 #include <QToolBar>
 #include <QAction>
 #include <QActionGroup>
+#include <QMenuBar>
+#include <QMenu>
 
 MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent)
 {
     createUI();
+    createMenuBar();
     createToolBar();
 }
 
@@ -27,6 +30,23 @@ void MainWindow::createUI()
         &Scene::cursorChanged,
         view,
         &QGraphicsView::setCursor
+    );
+}
+
+void MainWindow::createMenuBar()
+{
+    auto* bar = menuBar();
+
+    auto* fileMenu = new QMenu(tr("File"), this);
+    bar->addMenu(fileMenu);
+
+    auto* saveAction = new QAction(tr("Save"), this);
+    fileMenu->addAction(saveAction);
+    connect(
+        saveAction,
+        &QAction::triggered,
+        this,
+        &MainWindow::save
     );
 }
 
@@ -67,4 +87,9 @@ void MainWindow::createToolBar()
 void MainWindow::setEditMode(EditMode m)
 {
     scene->setEditMode(m);
+}
+
+void MainWindow::save()
+{
+    scene->save("file.json");
 }

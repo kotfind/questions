@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <stdexcept>
 #include <QGraphicsScene>
+#include <QJsonArray>
 
 Node::Node()
 {
@@ -97,3 +98,26 @@ void Node::remove()
     }
     delete this;
 }
+
+QJsonObject Node::toJson(
+    const QHash<Node*, int>& nodeToId,
+    const QList<Arrow*>& arrowsFromThis
+) const
+{
+    QJsonObject j;
+    j["x"] = pos().x();
+    j["y"] = pos().y();
+    j["text"] = toPlainText();
+    j["imageUrl"] = imageUrl;
+
+    QJsonArray jsonArrows;
+    for (const auto* arrow : arrowsFromThis) {
+        QJsonObject j;
+        j["text"] = arrow->text;
+        j["to"] = nodeToId[arrow->to];
+        jsonArrows << j;
+    }
+
+    j["arrows"] = jsonArrows;
+    return j;
+};

@@ -12,6 +12,7 @@ class MainWindow : public QMainWindow {
 
     private:
         void createUI();
+        void createMenuBar();
         void createToolBar();
 
         Scene* scene;
@@ -19,4 +20,6 @@ class MainWindow : public QMainWindow {
 
     private slots:
         void setEditMode(EditMode);
+
+        void save();
 };
