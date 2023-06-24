@@ -34,6 +34,7 @@ class Node : public QGraphicsTextItem {
             const QHash<Node*, int>& nodeToId,
             const QList<Arrow*>& arrowsFromThis
         ) const;
+        void fromJson(const QJsonObject&);
 
         bool isInitial = false;
         QString imageUrl = "";

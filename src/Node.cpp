@@ -2,6 +2,7 @@
 
 #include "Arrow.h"
 #include "NodeDialog.h"
+#include "getOrThrow.h"
 
 #include <QPainter>
 #include <stdexcept>
@@ -120,4 +121,14 @@ QJsonObject Node::toJson(
 
     j["arrows"] = jsonArrows;
     return j;
-};
+}
+
+void Node::fromJson(const QJsonObject& j)
+{
+    setPos(
+        getOrThrow(j["x"]).toDouble(),
+        getOrThrow(j["y"]).toDouble()
+    );
+    setPlainText(getOrThrow(j["text"]).toString());
+    imageUrl = getOrThrow(j["imageUrl"]).toString();
+}

@@ -19,6 +19,8 @@ class Scene : public QGraphicsScene {
         void setInitial(Node*);
 
         void save(const QString& fileName);
+        bool load(const QString& fileName);
+        void clear();
 
         static Scene* instance;
 
@@ -31,6 +33,7 @@ class Scene : public QGraphicsScene {
 
     private:
         QJsonObject toJson() const;
+        void fromJson(const QJsonObject&);
 
         EditMode mode;
 

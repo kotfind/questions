@@ -26,6 +26,7 @@ target_sources(questions PRIVATE
     Arrow.cpp
     NodeDialog.cpp
     ArrowDialog.cpp
+    getOrThrow.cpp
 )
 
 target_link_libraries(questions PRIVATE

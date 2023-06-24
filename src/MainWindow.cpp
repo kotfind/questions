@@ -48,6 +48,15 @@ void MainWindow::createMenuBar()
         this,
         &MainWindow::save
     );
+
+    auto* openAction = new QAction(tr("Open"), this);
+    fileMenu->addAction(openAction);
+    connect(
+        openAction,
+        &QAction::triggered,
+        this,
+        &MainWindow::open
+    );
 }
 
 void MainWindow::createToolBar()
@@ -92,4 +101,9 @@ void MainWindow::setEditMode(EditMode m)
 void MainWindow::save()
 {
     scene->save("file.json");
+}
+
+void MainWindow::open()
+{
+    scene->load("file.json");
 }

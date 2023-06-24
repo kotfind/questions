@@ -3,6 +3,7 @@
 #include "Node.h"
 #include "Arrow.h"
 #include "EditMode.h"
+#include "getOrThrow.h"
 
 #include <QGraphicsEllipseItem>
 #include <QTransform>
@@ -13,6 +14,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QFile>
+#include <stdexcept>
 
 Scene* Scene::instance = nullptr;
 
@@ -210,4 +212,83 @@ void Scene::save(const QString& fileName)
     }
 
     file.write(QJsonDocument(toJson()).toJson());
+}
+
+void Scene::fromJson(const QJsonObject& j)
+{
+    int initial = getOrThrow(j["initial"]).toInt();
+    const auto& jsonNodes = getOrThrow(j["nodes"]).toArray();
+
+    QList<Node*> nodes(jsonNodes.size());
+    for (int i = 0; i < jsonNodes.size(); ++i) {
+        auto* n = new Node;
+        n->fromJson(jsonNodes[i].toObject());
+        n->isInitial = i == initial;
+        nodes[i] = n;
+    }
+
+    QList<Arrow*> arrows;
+    for (int i = 0; i < jsonNodes.size(); ++i) {
+        const auto& jsonArrows = getOrThrow(jsonNodes[i]["arrows"]).toArray();
+        for (int j = 0; j < jsonArrows.size(); ++j) {
+            const auto& jsonArrow = jsonArrows[j].toObject();
+            auto* arrow = new Arrow(
+                nodes[i],
+                nodes[getOrThrow(jsonArrow["to"]).toInt()]
+            );
+            arrow->text = getOrThrow(jsonArrow["text"]).toString();
+            arrows << arrow;
+        }
+    }
+
+    for (auto* node : nodes) {
+        addItem(node);
+    }
+
+    for (auto* arrow : arrows) {
+        addItem(arrow);
+    }
+}
+
+bool Scene::load(const QString& fileName)
+{
+    clear();
+
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(
+            nullptr,
+            tr("Couldn't open file"),
+            tr("Couldn't open file \"%1\" for reading.").arg(fileName)
+        );
+        return false;
+    }
+
+    try {
+        fromJson(QJsonDocument::fromJson(file.readAll()).object());
+        update();
+        return true;
+    } catch(const std::runtime_error&) {
+        QMessageBox::critical(
+            nullptr,
+            tr("Couldn't parse"),
+            tr("Couldn't parse file \"%1\".").arg(fileName)
+        );
+        update();
+        return false;
+    }
+}
+
+void Scene::clear()
+{
+    while (!items().isEmpty()) {
+        auto item = items()[0];
+        if (auto* node = dynamic_cast<Node*>(item)) {
+            node->remove();
+        }
+        if (auto* arrow = dynamic_cast<Arrow*>(item)) {
+            arrow->remove();
+        }
+    }
 }

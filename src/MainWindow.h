@@ -22,4 +22,5 @@ class MainWindow : public QMainWindow {
         void setEditMode(EditMode);
 
         void save();
+        void open();
 };
