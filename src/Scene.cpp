@@ -203,7 +203,7 @@ QJsonObject Scene::toJson() const
     return json;
 }
 
-bool Scene::save(const QString& fileName)
+bool Scene::save(const QString& fileName, bool asExport)
 {
     QFile file(fileName);
 
@@ -216,8 +216,13 @@ bool Scene::save(const QString& fileName)
         return false;
     }
 
+    if (asExport) {
+        file.write("questionsData = ");
+    }
     file.write(QJsonDocument(toJson()).toJson());
-    hasChanged = false;
+    if (!asExport) {
+        hasChanged = false;
+    }
     update();
     return true;
 }

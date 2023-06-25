@@ -70,8 +70,20 @@ void MainWindow::createMenuBar()
     connect(
         saveAsAction,
         &QAction::triggered,
-        this,
-        &MainWindow::saveAs
+        [this]() {
+            saveAs(false);
+        }
+    );
+
+    auto* asExportAction = new QAction(tr("Export"), this);
+    asExportAction->setShortcut(Qt::CTRL | Qt::Key_E);
+    fileMenu->addAction(asExportAction);
+    connect(
+        asExportAction,
+        &QAction::triggered,
+        [this]() {
+            saveAs(true);
+        }
     );
 
     auto* openAction = new QAction(tr("Open"), this);
@@ -156,32 +168,38 @@ bool MainWindow::askForSave()
 bool MainWindow::save()
 {
     if (openedFileName.isEmpty()) {
-        return saveAs();
+        return saveAs(false);
     }
 
-    bool code = scene->save(openedFileName);
+    bool code = scene->save(openedFileName, false);
     updateTitle();
     return code;
 }
 
-bool MainWindow::saveAs()
+bool MainWindow::saveAs(bool asExport)
 {
+    const auto ext = asExport
+        ? ".js"
+        : ".json";
+
     auto fileName = QFileDialog::getSaveFileName(
         this,
         tr("Save file"),
         "",
-        tr("Questions file (*.json)")
+        tr("Questions file (*%1)").arg(ext)
     );
 
     if (fileName.isEmpty()) return false;
 
-    if (!fileName.endsWith(".json")) {
-        fileName += ".json";
+    if (!fileName.endsWith(ext)) {
+        fileName += ext;
     }
 
-    if (scene->save(fileName)) {
-        openedFileName = fileName;
-        updateTitle();
+    if (scene->save(fileName, asExport)) {
+        if (!asExport) {
+            openedFileName = fileName;
+            updateTitle();
+        }
         return true;
     } else {
         return false;

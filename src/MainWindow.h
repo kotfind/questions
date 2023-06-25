@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow {
         void setEditMode(EditMode);
 
         bool save();
-        bool saveAs();
+        bool saveAs(bool asExport);
         bool open();
         bool new_();
 };

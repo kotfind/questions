@@ -18,7 +18,7 @@ class Scene : public QGraphicsScene {
 
         void setInitial(Node*);
 
-        bool save(const QString& fileName);
+        bool save(const QString& fileName, bool asExport);
         bool load(const QString& fileName);
         void clear();
 
